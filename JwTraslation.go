@@ -17,12 +17,6 @@ func (cw *Optimus)JwTranslate(data []byte) {
 		return
 	}
 
-
-	cw.Media = new(Media)
-	cw.Metadata = new(Metadata)
-	cw.Content = new(Content)
-	cw.ContentAvailable = []*ContentAvailable{}
-
 	//make media
 	makingJWMedia(data, cw.Media)
 	println("MEDIA**************************************************")
@@ -97,10 +91,10 @@ func makingJWMedia(data []byte, media *Media){
 func makingJwContent(data []byte, content *Content){
 	var sources []string
 	for _, r := range gjson.GetBytes(data, `offers.#.provider_id`).Array() {
-		for k, v := range jwProvidersMap {
+		for k, v := range JwProvidersMap {
 			if v == r.Int() {
 				contains := false
-				tmp := jwProviderSourceMap[k]
+				tmp := JwProviderSourceMap[k]
 				for _, s := range sources {
 					if s == tmp {
 						contains  = true
@@ -148,7 +142,7 @@ func makingJwMetadata(data []byte, metadata *Metadata){
 
 	//genre
 	for _, r := range gjson.GetBytes(data, "genre_ids").Array() {
-		metadata.Genre = append(metadata.Genre, jwGenre[r.Int()])
+		metadata.Genre = append(metadata.Genre, JwGenre[r.Int()])
 	}
 
 	//Director
@@ -218,9 +212,9 @@ func makingJWContentAvliable(data []byte , avaliable *[]*ContentAvailable) {
 								break
 							}
 
-		for k, v := range jwProvidersMap {
+		for k, v := range JwProvidersMap {
 			if v == r.Get("provider_id").Int() {
-				ca.Source = jwProviderSourceMap[k]
+				ca.Source = JwProviderSourceMap[k]
 				ca.Package = GetPackageNameForJW(k)
 				break
 			}

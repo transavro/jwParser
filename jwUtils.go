@@ -9,20 +9,20 @@ import (
 )
 
 var(
-	jwMonetizeType []string
-	jwProviderArray []string
-	jwProvidersMap = make(map[string]int64)
-	jwGenre = make(map[int64]string)
-	jwProviderSourceMap = make(map[string]string)
-	jwCategories []string
+	JwMonetizeType []string
+	JwProviderArray []string
+	JwProvidersMap = make(map[string]int64)
+	JwGenre = make(map[int64]string)
+	JwProviderSourceMap = make(map[string]string)
+	JwCategories []string
 )
 
 func init() {
 	log.Println("JW ASSETS INIT ")
 	// monetize_type
-	jwMonetizeType = []string{"free", "flatrate", "ads", "rent'", "buy", "5D"}
+	JwMonetizeType = []string{"free", "flatrate", "ads", "rent'", "buy", "5D"}
 	//categories
-	jwCategories = []string{"movie", "show"}
+	JwCategories = []string{"movie", "show"}
 }
 
 func getGenreFromJW()  {
@@ -38,7 +38,7 @@ func getGenreFromJW()  {
 		log.Fatal("Io error ", err)
 	}
 	for _, r := range gjson.ParseBytes(bytes).Array() {
-		jwGenre[r.Get("id").Int()] = r.Get("translation").String()
+		JwGenre[r.Get("id").Int()] = r.Get("translation").String()
 	}
 }
 
@@ -55,8 +55,8 @@ func getProviderFromJW()  {
 		log.Fatal("Io error ", err)
 	}
 	for _, r := range gjson.ParseBytes(bytes).Array() {
-		jwProvidersMap[r.Get("short_name").String()] = r.Get("id").Int()
-		jwProviderSourceMap[r.Get("short_name").String()] = r.Get("clear_name").String()
+		JwProvidersMap[r.Get("short_name").String()] = r.Get("id").Int()
+		JwProviderSourceMap[r.Get("short_name").String()] = r.Get("clear_name").String()
 	}
 }
 
@@ -147,7 +147,7 @@ func GetPackageNameForJW(sourceCode interface{}) string {
 	return ""
 }
 
-func isoCodeToLanguage(langCode string) string {
+func IsoCodeToLanguage(langCode string) string {
 	switch langCode {
 	case "en":
 		{
