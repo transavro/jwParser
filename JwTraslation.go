@@ -17,6 +17,12 @@ func (cw *Optimus)JwTranslate(data []byte) {
 		return
 	}
 
+
+	cw.Media = new(Media)
+	cw.Metadata = new(Metadata)
+	cw.Content = new(Content)
+	cw.ContentAvailable = []*ContentAvailable{}
+
 	//make media
 	makingJWMedia(data, cw.Media)
 	println("MEDIA**************************************************")
